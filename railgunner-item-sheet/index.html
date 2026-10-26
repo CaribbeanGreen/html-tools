@@ -1,0 +1,252 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Railgunner Item Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: HUD-style sheet — sticky control bar, then one band per rarity with a card grid. Single dark theme by choice (in-game feel). */
+:root{
+  color-scheme: dark;
+  --bg:#0f1216; --panel:#171b21; --panel2:#1e232b; --line:#2a313b;
+  --fg:#e9edf2; --muted:#9aa4b1; --dim:#6b7480;
+  --white:#dfe4ea; --green:#7ccf63; --red:#ec5a45; --void:#b673e0; --equip:#f0a23a;
+  --core:#f0d24a; --good:#5fb7e8; --sit:#9aa4b1; --skip:#e05a5a;
+  --display:"Saira Condensed","Arial Narrow",sans-serif;
+  --body:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.45}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 16px 60px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,46px);letter-spacing:.02em;text-transform:uppercase;margin:0;line-height:1;text-wrap:balance}
+.sub{color:var(--muted);margin:6px 0 0;max-width:65ch}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:18px -16px 0;padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{background:var(--panel);color:var(--muted);border:0;padding:8px 12px;font:600 13px var(--body);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.seg button:focus-visible,.chip:focus-visible,input:focus-visible,.img:focus-visible{outline:2px solid var(--core);outline-offset:2px}
+.lbl{font:600 11px var(--body);text-transform:uppercase;letter-spacing:.1em;color:var(--dim)}
+#q{flex:1 1 180px;min-width:0;background:var(--panel);border:1px solid var(--line);color:var(--fg);border-radius:6px;padding:8px 10px;font:14px var(--body)}
+.legend{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:999px;padding:4px 10px;font:600 12px var(--body);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.chip[aria-pressed="false"]{opacity:.4}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+
+.quick{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px}
+.quick h2{font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px}
+.qrow{display:flex;flex-wrap:wrap;gap:8px}
+.qpill{display:inline-flex;align-items:center;gap:8px;background:var(--panel2);border-left:4px solid var(--c);border-radius:4px;padding:6px 10px;font-weight:600;font-size:14px}
+.qpill small{font:500 11px var(--mono);color:var(--muted)}
+
+section.tier{margin-top:30px}
+.thead{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--c);padding-bottom:6px;margin-bottom:14px}
+.thead h2{font-family:var(--display);font-weight:800;font-size:28px;text-transform:uppercase;letter-spacing:.04em;margin:0;color:var(--c)}
+.thead span{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;display:grid;grid-template-columns:76px 1fr;gap:12px;padding:12px;position:relative;min-width:0}
+.card.dim{opacity:.38}
+.img{width:76px;height:76px;border-radius:6px;background:var(--panel2);border:2px solid var(--c);display:grid;place-items:center;cursor:pointer;overflow:hidden;position:relative;padding:0}
+.img img{width:100%;height:100%;object-fit:contain}
+.img .mono{font:800 26px var(--display);color:var(--c)}
+.img .hint{position:absolute;bottom:2px;left:0;right:0;font:500 9px var(--mono);color:var(--dim);text-align:center}
+.body{min-width:0;display:flex;flex-direction:column;gap:6px}
+.top{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.name{font-weight:600;font-size:15.5px;line-height:1.25}
+.alt{font-size:12px;color:var(--muted)}
+.tag{flex:none;font:700 11px var(--body);text-transform:uppercase;letter-spacing:.08em;padding:3px 7px;border-radius:4px;color:var(--bg);background:var(--t)}
+.why{color:#c9d0d9;font-size:13.5px;margin:0}
+.lo{font-size:12.5px;display:flex;flex-direction:column;gap:3px;border-top:1px dashed var(--line);padding-top:6px}
+.lo div{color:var(--dim)}
+.lo div.on{color:var(--fg)}
+.lo b{font-family:var(--mono);font-weight:500;font-size:11.5px}
+.clr{background:none;border:0;color:var(--dim);font:500 11px var(--mono);cursor:pointer;padding:0;align-self:flex-start}
+.clr:hover{color:var(--fg)}
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px}
+.tile{position:relative;aspect-ratio:1;max-width:100%;background:var(--panel2);border:2px solid var(--c);border-radius:8px;display:grid;place-items:center;cursor:pointer;padding:6px;overflow:hidden}
+.tile img{width:100%;height:100%;object-fit:contain}
+.tile .mono{font:800 30px var(--display);color:var(--c)}
+.tile .tg{position:absolute;top:0;left:0;right:0;height:5px;background:var(--t)}
+.tile .tl{position:absolute;bottom:4px;right:4px;font:700 10px var(--body);text-transform:uppercase;letter-spacing:.06em;padding:2px 5px;border-radius:3px;background:var(--t);color:var(--bg)}
+.tile .alt2{position:absolute;bottom:4px;left:4px;font:800 11px var(--display);color:var(--fg);background:var(--bg);border-radius:3px;padding:1px 5px}
+.tile.dim{opacity:.3}
+.tile.noimg::after{content:attr(data-n);position:absolute;top:8px;left:6px;right:6px;font:500 10px var(--body);color:var(--muted);text-align:center;line-height:1.15}
+.tile:focus-visible{outline:2px solid var(--core);outline-offset:2px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:6px;font-weight:600;font-size:13px;z-index:9;max-width:calc(100% - 32px)}
+.howto{margin-top:12px;color:var(--muted);font-size:13px;max-width:75ch}
+.foot{margin-top:40px;color:var(--dim);font-size:12.5px;max-width:70ch}
+@media (max-width:420px){.card{grid-template-columns:60px 1fr}.img{width:60px;height:60px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <h1>Railgunner Item Sheet</h1>
+  <p class="sub">Risk of Rain 2 · glance-and-grab shopping list. Pick your secondary, then scan for <b style="color:var(--core)">CORE</b> tags. Tap any image box to add your own item icon.</p>
+
+  <div class="bar">
+    <span class="lbl">Secondary</span>
+    <div class="seg" role="group" aria-label="Secondary loadout">
+      <button id="lo-m99" aria-pressed="true" data-lo="m99">M99 Sniper</button>
+      <button id="lo-hh44" aria-pressed="false" data-lo="hh44">HH44 Marksman</button>
+    </div>
+    <span class="lbl">View</span>
+    <div class="seg" role="group" aria-label="View">
+      <button id="v-icons" aria-pressed="true" data-v="icons">Icons</button>
+      <button id="v-cards" aria-pressed="false" data-v="cards">Details</button>
+    </div>
+    <button class="chip" id="bulk" data-bulk="1" style="border-color:var(--core)">+ Add icons (multi-select)</button>
+    <button class="chip" id="savecopy" data-save="1">Save copy with icons</button>
+    <input id="q" type="search" placeholder="Find item…" aria-label="Find item">
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="quick">
+    <h2>Buy first</h2>
+    <div class="qrow" id="quick"></div>
+    <p class="howto"><b style="color:var(--fg)">Adding icons:</b> save the icons from the RoR2 wiki (or crop in-game screenshots), keeping the item name in the file name, e.g. <span style="font-family:var(--mono)">Crowbar.png</span>. Tap <b>+ Add icons</b>, select them all at once, and each lands on its item. Tap a single tile to set or replace just that one.</p>
+  </div>
+  <div class="toast" id="toast" hidden></div>
+
+  <div id="tiers"></div>
+
+  <p class="foot"><b style="color:var(--muted)">Keeping your icons in an export:</b> icons live in your browser, so a plain export has none. Open the sheet as a downloaded .html file, add your icons there, then tap <b>Save copy with icons</b>. That copy has every picture built in and works offline on any device.</p>
+  <p class="foot">Images you add are saved in this browser only. Railgunner's passive turns any crit chance into crit damage, so "crit chance" items on this sheet are listed by the damage they actually give her.</p>
+</div>
+
+<script id="main">
+const TIERS=[
+ {id:"white",name:"Common",sub:"White",c:"var(--white)"},
+ {id:"green",name:"Uncommon",sub:"Green",c:"var(--green)"},
+ {id:"red",name:"Legendary",sub:"Red",c:"var(--red)"},
+ {id:"void",name:"Void",sub:"Purple",c:"var(--void)"},
+ {id:"equip",name:"Equipment",sub:"Orange",c:"var(--equip)"}
+];
+const PRI={core:{l:"Core",c:"var(--core)",r:0},good:{l:"Good",c:"var(--good)",r:1},sit:{l:"Situational",c:"var(--sit)",r:2},skip:{l:"Skip",c:"var(--skip)",r:3}};
+// p = priority; lo = per-loadout override {m99:{p,n},hh44:{p,n}}
+const ITEMS=[
+ {id:"crowbar",t:"white",n:"Crowbar",p:"core",w:"Top priority. Huge first-hit multiplier: your opening weakpoint shot one-shots normal mobs and chunks bosses."},
+ {id:"lens",t:"white",n:"Lens-Maker's Glasses",p:"core",w:"Passive converts it to a flat +10% crit damage per stack instead of random crit chance."},
+ {id:"apr",t:"white",n:"Armor-Piercing Rounds",p:"core",w:"Deletes Teleporter bosses in a few charged sniper shots."},
+ {id:"bmag",t:"white",n:"Backup Magazine",p:"good",w:"+1 sniper charge before you are forced to reload.",lo:{m99:{p:"core",n:"Essential"},hh44:{p:"skip",n:"Useless, don't pick up"}}},
+ {id:"gas",t:"white",n:"Gasoline",p:"good",w:"Early AOE clear. Fixes Railgunner's weakness against swarms of small enemies."},
+ {id:"hoof",t:"white",n:"Paul's Goat Hoof",alt:"or Energy Drink",p:"good",w:"No native horizontal dash, so raw move speed is your survival."},
+ {id:"opal",t:"white",n:"Oddly-Shaped Opal",alt:"or Tougher Times",p:"good",w:"Buffers stray hits and burst damage while you're scoped in or standing still."},
+ {id:"slug",t:"white",n:"Cautious Slug",p:"good",w:"Strong passive healing. You play at range and drop out of combat easily."},
+
+ {id:"bands",t:"green",n:"Kjaro's Band",alt:"+ Runald's Band",p:"core",w:"Core damage engine. Every sniper shot clears the 400% threshold, so both bands fire on cooldown."},
+ {id:"guill",t:"green",n:"Old Guillotine",p:"good",w:"Lowers the elite execute threshold so high-health elites die to one headshot."},
+ {id:"scythe",t:"green",n:"Harvester's Scythe",p:"good",w:"+5% crit damage via passive, plus reliable healing on every weakpoint hit."},
+ {id:"pred",t:"green",n:"Predatory Instincts",p:"good",w:"+5% crit damage per stack.",lo:{m99:{p:"skip",n:"Low priority, attack speed doesn't speed up the active reload"},hh44:{p:"good",n:"Excellent, ramps fire rate"}}},
+ {id:"whip",t:"green",n:"Red Whip",p:"sit",w:"Out-of-combat move speed for crossing the map and setting up sniping angles."},
+ {id:"wisp",t:"green",n:"Will-o'-the-Wisp",p:"sit",w:"Killed enemies detonate, chaining through crowds after you drop a priority target."},
+
+ {id:"scope",t:"red",n:"Laser Scope",p:"core",w:"Best red for Railgunner. +100% crit damage, scaling every weakpoint hit to absurd numbers."},
+ {id:"h3ad",t:"red",n:"H3AD-5T v2",p:"good",w:"No fall damage, launches you up for high-ground angles, plus heavy kinetic drops."},
+ {id:"spleen",t:"red",n:"Shatterspleen",p:"good",w:"Crits bleed; bleeding enemies explode on death for 400% plus max-health scaling. Wipes waves."},
+ {id:"afterb",t:"red",n:"Hardlight Afterburner",p:"good",w:"+2 Concussion Device charges and lower cooldown. Reliable escapes and vertical launches."},
+
+ {id:"safer",t:"void",n:"Safer Spaces",alt:"corrupts Tougher Times",p:"good",w:"Blocks a hit completely on cooldown. More reliable on a sniper than % dodge."},
+ {id:"vflame",t:"void",n:"Voidsent Flame",alt:"corrupts Will-o'-the-Wisp",p:"good",w:"Lava burst on full-health targets. Pairs with Crowbar to wipe clusters on the first shot."},
+ {id:"larva",t:"void",n:"Pluripotent Larva",alt:"corrupts Dio's Best Friend",p:"sit",w:"Extra life that turns your items void on revive. Only if you're leaning into void synergies."},
+
+ {id:"hud",t:"equip",n:"Ocular HUD",p:"core",w:"+100% crit chance for 8s, which becomes +100% crit damage. Save it for boss burst."},
+ {id:"dml",t:"equip",n:"Disposable Missile Launcher",p:"good",w:"Hands-off damage while you focus on lining up scoped shots."},
+ {id:"crowd",t:"equip",n:"The Crowdfunder",p:"sit",w:"Panic option on Marksman. Usually outclassed by burst utility.",lo:{m99:{p:"sit",n:"Outclassed"},hh44:{p:"good",n:"Decent panic button"}}}
+];
+
+const S={lo:"m99",v:"icons",q:"",show:{core:1,good:1,sit:1,skip:1}};
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+try{const l=store.get("rg-lo");if(l==="m99"||l==="hh44")S.lo=l;const v=store.get("rg-v");if(v==="icons"||v==="cards")S.v=v}catch(e){}
+
+const pri=i=>i.lo?i.lo[S.lo].p:i.p;
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const initials=n=>n.replace(/[^A-Za-z0-9 -]/g,"").split(/[\s-]+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+const imgs=Object.assign({},window.PRESET_IMGS||{});ITEMS.forEach(i=>{const v=store.get("rg-img-"+i.id);if(v)imgs[i.id]=v});
+
+function render(){
+  document.querySelectorAll(".seg button[data-lo]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lo===S.lo));
+  document.querySelectorAll(".seg button[data-v]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===S.v));
+  // legend
+  document.getElementById("legend").innerHTML=Object.entries(PRI).map(([k,v])=>`<button class="chip" data-p="${k}" aria-pressed="${!!S.show[k]}" style="color:${v.c}"><span class="dot"></span><span style="color:var(--fg)">${v.l}</span></button>`).join("");
+  // quick list
+  const core=ITEMS.filter(i=>pri(i)==="core");
+  document.getElementById("quick").innerHTML=core.map(i=>{const t=TIERS.find(x=>x.id===i.t);return `<span class="qpill" style="--c:${t.c}">${esc(i.n)}${i.alt&&i.alt.startsWith("+")?" "+esc(i.alt):""} <small>${t.sub.toUpperCase()}</small></span>`}).join("");
+  // tiers
+  const q=S.q.toLowerCase();
+  document.getElementById("tiers").innerHTML=TIERS.map(t=>{
+    const list=ITEMS.filter(i=>i.t===t.id).sort((a,b)=>PRI[pri(a)].r-PRI[pri(b)].r);
+    const cards=list.map(i=>{
+      const p=pri(i),P=PRI[p];
+      const match=!q||(i.n+" "+(i.alt||"")).toLowerCase().includes(q);
+      if(!match||!S.show[p])return "";
+      const img=imgs[i.id];
+      if(S.v==="icons"){
+        const two=i.alt&&/^(or|\+)/.test(i.alt);
+        return `<button class="tile ${p==="skip"?"dim":""} ${img?"":"noimg"}" style="--c:${t.c};--t:${P.c}" data-up="${i.id}" data-n="${esc(i.n)}" title="${esc(i.n)}${i.alt?" "+esc(i.alt):""} · ${P.l}" aria-label="${esc(i.n)}, ${P.l}">
+          <span class="tg"></span>${img?`<img src="${img}" alt="">`:`<span class="mono">${initials(i.n)}</span>`}
+          ${two?`<span class="alt2">${i.alt.startsWith("+")?"+1":"OR"}</span>`:""}<span class="tl">${P.l}</span></button>`;
+      }
+      const lo=i.lo?`<div class="lo"><div class="${S.lo==="m99"?"on":""}"><b>M99</b> · ${esc(i.lo.m99.n)}</div><div class="${S.lo==="hh44"?"on":""}"><b>HH44</b> · ${esc(i.lo.hh44.n)}</div></div>`:"";
+      return `<article class="card ${p==="skip"?"dim":""}" style="--c:${t.c}">
+        <button class="img" data-up="${i.id}" aria-label="Add image for ${esc(i.n)}">${img?`<img src="${img}" alt="${esc(i.n)}">`:`<span class="mono">${initials(i.n)}</span><span class="hint">+ image</span>`}</button>
+        <div class="body">
+          <div class="top"><div><div class="name">${esc(i.n)}</div>${i.alt?`<div class="alt">${esc(i.alt)}</div>`:""}</div><span class="tag" style="--t:${P.c}">${P.l}</span></div>
+          <p class="why">${esc(i.w)}</p>${lo}
+          ${img?`<button class="clr" data-clr="${i.id}">remove image</button>`:""}
+        </div></article>`}).join("");
+    return cards?`<section class="tier" style="--c:${t.c}"><div class="thead"><h2>${t.name}</h2><span>${t.sub}</span></div><div class="${S.v==="icons"?"igrid":"grid"}">${cards}</div></section>`:"";
+  }).join("")||`<p class="sub" style="margin-top:30px">No items match. Clear the search or turn a tag back on.</p>`;
+}
+
+const mkInput=(id,multi)=>{let el=document.getElementById(id);if(!el){el=document.createElement("input");el.type="file";el.accept="image/*";el.id=id;el.hidden=true;document.body.appendChild(el)}el.multiple=!!multi;return el};
+const fi=mkInput("file-up"),fb=mkInput("file-bulk",true);
+function saveCopy(){
+  const n=Object.keys(imgs).length;
+  if(!n){toast("Add some icons first, then save a copy.");return}
+  const clone=document.documentElement.cloneNode(true);
+  clone.querySelectorAll("#file-up,#file-bulk,#preset").forEach(e=>e.remove());
+  const tg=clone.querySelector("#toast");if(tg)tg.hidden=true;
+  const pre=document.createElement("script");pre.id="preset";
+  pre.textContent="window.PRESET_IMGS="+JSON.stringify(imgs).replace(/</g,"\\u003c")+";";
+  const main=clone.querySelector("#main");main.parentNode.insertBefore(pre,main);
+  const html="<!doctype html>\n"+clone.outerHTML;
+  try{
+    const url=URL.createObjectURL(new Blob([html],{type:"text/html"}));
+    const a=document.createElement("a");a.href=url;a.download="railgunner-item-sheet.html";document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    toast(`Saving copy with ${n} icon${n===1?"":"s"}. Nothing downloaded? Open the sheet as a file first (see the note at the bottom).`);
+  }catch(e){toast("Saving was blocked here. Open the sheet as a file first (see the note at the bottom).")}
+}
+let target=null;
+const norm=s=>s.toLowerCase().replace(/\.[a-z0-9]+$/,"").replace(/[^a-z0-9]/g,"");
+// every name a file could be called -> item id (both halves of "or"/"+" cards)
+const KEYS=[];ITEMS.forEach(i=>{KEYS.push([norm(i.n),i.id]);if(i.alt&&/^(or|\+)/.test(i.alt))KEYS.push([norm(i.alt.replace(/^(or|\+)\s*/,"")),i.id]);if(i.n.startsWith("The "))KEYS.push([norm(i.n.slice(4)),i.id])});
+KEYS.sort((a,b)=>b[0].length-a[0].length);
+const match=fn=>{const n=norm(fn).replace(/^(ror2|riskofrain2)/,"").replace(/icon$/,"");const k=KEYS.find(([key])=>n===key)||KEYS.find(([key])=>n.includes(key));return k&&k[1]};
+function toIcon(file){return new Promise((ok,bad)=>{const r=new FileReader();r.onerror=bad;r.onload=()=>{const im=new Image();im.onerror=bad;im.onload=()=>{
+  const c=document.createElement("canvas"),s=128,k=Math.min(s/im.width,s/im.height,1);
+  c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+  c.getContext("2d").drawImage(im,0,0,c.width,c.height);ok(c.toDataURL("image/png"))};im.src=r.result};r.readAsDataURL(file)})}
+function save(id,d){imgs[id]=d;store.set("rg-img-"+id,d)}
+let tt;function toast(m){const t=document.getElementById("toast");t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,3500)}
+fi.addEventListener("change",async()=>{const f=fi.files[0];if(!f||!target)return;try{save(target,await toIcon(f))}catch(e){toast("That file couldn't be read as an image.")}fi.value="";render()});
+fb.addEventListener("change",async()=>{
+  let ok=0;const miss=[];
+  for(const f of fb.files){const id=match(f.name);if(!id){miss.push(f.name);continue}try{save(id,await toIcon(f));ok++}catch(e){miss.push(f.name)}}
+  fb.value="";render();
+  toast(`Added ${ok} icon${ok===1?"":"s"}`+(miss.length?`. No match for: ${miss.slice(0,3).join(", ")}${miss.length>3?"…":""}`:""));
+});
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.lo){S.lo=b.dataset.lo;store.set("rg-lo",S.lo);render()}
+  else if(b.dataset.v){S.v=b.dataset.v;store.set("rg-v",S.v);render()}
+  else if(b.dataset.bulk){fb.click()}
+  else if(b.dataset.save){saveCopy()}
+  else if(b.dataset.p){S.show[b.dataset.p]=S.show[b.dataset.p]?0:1;render()}
+  else if(b.dataset.up){target=b.dataset.up;fi.click()}
+  else if(b.dataset.clr){delete imgs[b.dataset.clr];store.del("rg-img-"+b.dataset.clr);render()}
+});
+document.getElementById("q").addEventListener("input",e=>{S.q=e.target.value;render()});
+render();
+</script>
+
+</body></html>
